@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1,viewport-fit=cover">
+<title>Beyblade X Score Tracker</title>
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BeyScore">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%2290%22 fill=%22%230d0d0d%22/><circle cx=%22256%22 cy=%22256%22 r=%22200%22 fill=%22none%22 stroke=%22%23ffd700%22 stroke-width=%2220%22/><circle cx=%22256%22 cy=%22256%22 r=%2280%22 fill=%22%231a6fff%22/><circle cx=%22256%22 cy=%22256%22 r=%2230%22 fill=%22%23ffd700%22/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%2290%22 fill=%22%230d0d0d%22/><circle cx=%22256%22 cy=%22256%22 r=%22200%22 fill=%22none%22 stroke=%22%23ffd700%22 stroke-width=%2220%22/><circle cx=%22256%22 cy=%22256%22 r=%2280%22 fill=%22%231a6fff%22/><circle cx=%22256%22 cy=%22256%22 r=%2230%22 fill=%22%23ffd700%22/></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+:root{--p1:#1a6fff;--p1bg:#0a1a3a;--p2:#ff3a3a;--p2bg:#3a0a0a;--dark:#0d0d0d;--card:#1a1a1a;--border:#333;--text:#eee;--muted:#888;--gold:#ffd700}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;font-family:'Segoe UI',system-ui,sans-serif;background:var(--dark);color:var(--text)}
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%}
+.p2-btns{display:flex;transform:rotate(180deg);flex-shrink:0;padding-top:env(safe-area-inset-bottom)}
+.p2-btns .sb,.p1-btns .sb{flex:1;border:none;min-height:64px;font-size:clamp(24px,7vw,38px);font-weight:800;color:#fff;cursor:pointer;touch-action:manipulation;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.p2-btns .sb:active,.p1-btns .sb:active{opacity:.7}
+.p2-btns .sb:nth-child(1){background:#ff3a3a}.p2-btns .sb:nth-child(2){background:#cc2a2a}.p2-btns .sb:nth-child(3){background:#991d1d}
+.p2-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(180deg);background:linear-gradient(180deg,var(--p2bg),#0d0d0d);overflow:hidden}
+.mid-bar{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:4px 8px;background:linear-gradient(180deg,#1a1a1a,#111);border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);flex-wrap:nowrap;min-height:48px;overflow:hidden}
+.mid-bar .mb{border:none;border-radius:10px;background:#333;color:#ccc;font-size:clamp(12px,2.8vw,16px);padding:6px 14px;min-height:40px;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;white-space:nowrap;flex-shrink:0}
+.mid-bar .mb:active{background:#555}
+.p1-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0d0d0d,var(--p1bg));overflow:hidden}
+.p1-btns{display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.p1-btns .sb:nth-child(1){background:#1a6fff}.p1-btns .sb:nth-child(2){background:#1258cc}.p1-btns .sb:nth-child(3){background:#0d3f99}
+.sn{font-size:clamp(100px,38vw,250px);font-weight:900;line-height:1;text-shadow:0 0 30px currentColor;transition:all .3s}
+.sn.p1c{color:var(--p1)}.sn.p2c{color:var(--p2)}
+.sn.winner{color:var(--gold)!important;text-shadow:0 0 50px rgba(255,215,0,.6);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.pd{display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:95%;margin-top:4px}
+.pd span{font-size:clamp(11px,2.5vw,15px)}
+.plbl{font-size:clamp(14px,3.5vw,20px);font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.7}
+.wt{color:var(--gold);font-size:clamp(10px,2vw,14px)}
+.type-badge{font-size:clamp(9px,1.8vw,12px);padding:1px 5px;border-radius:3px;font-weight:600;text-transform:uppercase;display:inline-block}
+.t-attack{background:#c62828;color:#fff}.t-defense{background:#1565c0;color:#fff}
+.t-stamina{background:#2e7d32;color:#fff}.t-balance{background:#6a1b9a;color:#fff}
+.sys-badge{font-size:clamp(8px,1.5vw,11px);padding:1px 4px;border-radius:3px;font-weight:700;margin-right:2px}
+.sys-bx{background:#444;color:#ccc}.sys-ux{background:#1a5276;color:#aed6f1}.sys-cx{background:#7d3c98;color:#e8daef}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.94);z-index:100;display:flex;flex-direction:column;align-items:center;padding:16px;padding-top:max(16px,env(safe-area-inset-top));overflow-y:auto}
+.overlay h2{color:var(--gold);margin:8px 0;font-size:clamp(18px,5vw,26px)}
+.overlay h3{color:var(--muted);margin:6px 0 2px;font-size:clamp(14px,3.5vw,18px)}
+.close-btn{position:sticky;top:0;align-self:flex-end;background:var(--p2);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:24px;cursor:pointer;z-index:2;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sel-wrap{margin:4px 0}.sel-wrap label{color:var(--muted);font-size:clamp(12px,2.5vw,15px)}
+.sel-wrap select{width:100%;padding:10px;font-size:clamp(14px,3vw,17px);background:#222;color:#eee;border:1px solid #444;border-radius:8px;margin-top:2px;min-height:44px}
+.parts-col{display:flex;gap:12px;width:100%;max-width:600px}
+.parts-side{flex:1;min-width:0}
+.parts-side.p1s{border-right:1px solid var(--border);padding-right:10px}
+.parts-side.p2s{padding-left:10px}
+@media(max-width:480px){.parts-col{flex-direction:column;gap:6px}.parts-side.p1s{border-right:none;border-bottom:1px solid var(--border);padding:0 0 8px 0}.parts-side.p2s{padding:8px 0 0 0}}
+.btn-gold{border:none;border-radius:12px;background:linear-gradient(135deg,#b8860b,#ffd700);color:#000;font-size:clamp(16px,4vw,20px);font-weight:700;padding:14px 40px;cursor:pointer;min-height:48px;touch-action:manipulation}
+.btn-clear{border:1px solid var(--border);border-radius:8px;background:#333;color:#ccc;font-size:clamp(13px,3vw,16px);padding:10px 24px;cursor:pointer;min-height:44px}
+.hcard{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:6px 0;width:100%;max-width:500px;font-size:clamp(12px,3vw,15px);cursor:pointer}
+.hcard .hh{display:flex;justify-content:space-between;color:var(--muted);font-size:.85em;margin-bottom:4px}
+.hcard .hb{display:flex;justify-content:space-between;align-items:center}
+.hcard .hs{text-align:center;flex:1}.hcard .hvs{font-weight:900;color:var(--gold);font-size:1.2em;padding:0 6px}
+.hcard .wl{color:var(--gold);font-weight:700}
+.hc-rounds{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.hc-rounds.open{display:block}
+.rnd-row{font-size:clamp(10px,2.2vw,13px);padding:4px 0;border-bottom:1px solid #222;color:var(--muted)}
+.rnd-row .rnd-num{color:var(--gold);font-weight:700}.rnd-row .rnd-p1{color:var(--p1)}.rnd-row .rnd-p2{color:var(--p2)}
+.hc-expand{font-size:clamp(10px,2.2vw,13px);color:var(--gold);text-align:center;margin-top:4px}
+.toast{position:fixed;top:0;left:0;right:0;z-index:300;text-align:center;padding:8px 14px;font-size:clamp(13px,3vw,16px);font-weight:600;transition:transform .3s,opacity .3s;transform:translateY(-100%);opacity:0;background:#222;color:var(--gold);border-bottom:1px solid var(--gold)}
+.toast.show{transform:translateY(0);opacity:1}
+.hidden{display:none!important}
+@media(max-height:600px){.sn{font-size:clamp(70px,28vw,160px)}.p2-btns .sb,.p1-btns .sb{min-height:52px;font-size:clamp(20px,6vw,30px)}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+  <div class="p2-btns"><button class="sb" onclick="addPt(2,1)">+1</button><button class="sb" onclick="addPt(2,2)">+2</button><button class="sb" onclick="addPt(2,3)">+3</button></div>
+  <div class="p2-area"><div class="pd" id="p2Disp"></div><div class="plbl" style="color:var(--p2)" id="p2Name">PLAYER 2</div><div class="sn p2c" id="p2Score">0</div></div>
+  <div class="mid-bar"><button class="mb" onclick="undoScore()" id="undoBtn">&#8617;Undo</button><button class="mb" onclick="openParts()" id="partsBtn">&#9881;Parts</button><button class="mb" onclick="newGame()" id="newBtn">&#128260;New</button><button class="mb" onclick="openHist()">&#128203;</button><button class="mb" onclick="toggleLang()" style="background:#555;color:var(--gold)">&#127760;</button></div>
+  <div class="p1-area"><div class="sn p1c" id="p1Score">0</div><div class="plbl" style="color:var(--p1)" id="p1Name">PLAYER 1</div><div class="pd" id="p1Disp"></div></div>
+  <div class="p1-btns"><button class="sb" onclick="addPt(1,1)">+1</button><button class="sb" onclick="addPt(1,2)">+2</button><button class="sb" onclick="addPt(1,3)">+3</button></div>
+</div>
+<div class="overlay hidden" id="partsOvl"><button class="close-btn" onclick="closeParts()">&#10005;</button><h2 id="partsTitle">Select Parts</h2><div class="parts-col"><div class="parts-side p1s"><h3 style="color:var(--p1)" id="p1Hdr">Player 1</h3><div class="sel-wrap"><label id="lb1B">Blade:</label><select id="s1Blade"><option value="">--</option></select></div><div class="sel-wrap hidden" id="a1Wrap"><label id="lb1A">Assist:</label><select id="s1Assist"><option value="">--</option></select></div><div class="sel-wrap"><label id="lb1R">Ratchet:</label><select id="s1Ratchet"><option value="">--</option></select></div><div class="sel-wrap"><label id="lb1Bit">Bit:</label><select id="s1Bit"><option value="">--</option></select></div><div id="wt1" style="text-align:center;color:var(--gold);font-size:clamp(12px,2.5vw,15px);margin:4px 0"></div></div><div class="parts-side p2s"><h3 style="color:var(--p2)" id="p2Hdr">Player 2</h3><div class="sel-wrap"><label id="lb2B">Blade:</label><select id="s2Blade"><option value="">--</option></select></div><div class="sel-wrap hidden" id="a2Wrap"><label id="lb2A">Assist:</label><select id="s2Assist"><option value="">--</option></select></div><div class="sel-wrap"><label id="lb2R">Ratchet:</label><select id="s2Ratchet"><option value="">--</option></select></div><div class="sel-wrap"><label id="lb2Bit">Bit:</label><select id="s2Bit"><option value="">--</option></select></div><div id="wt2" style="text-align:center;color:var(--gold);font-size:clamp(12px,2.5vw,15px);margin:4px 0"></div></div></div><div style="text-align:center;margin:12px 0;display:flex;gap:10px;justify-content:center"><button class="btn-gold" onclick="confirmParts()" id="confirmBtn">Confirm</button><button class="btn-clear" onclick="clearAllParts()" id="clearBtn">Clear All</button></div></div>
+<div class="overlay hidden" id="histOvl"><button class="close-btn" onclick="closeHist()">&#10005;</button><h2 id="histTitle">&#128203; Match History</h2><div id="histList" style="width:100%;max-width:500px"></div><div style="margin-top:10px"><button class="btn-clear" onclick="clearHist()" id="clearHistBtn" style="background:#991d1d;color:#fff">&#128465; Clear All</button></div></div>
+<div id="installBanner" class="hidden" style="position:fixed;bottom:0;left:0;right:0;z-index:400;background:#1a1a1a;border-top:2px solid var(--gold);padding:10px 16px;padding-bottom:max(10px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:8px"><div style="flex:1"><div style="color:var(--gold);font-weight:700;font-size:14px">&#9889; Add to Home Screen</div><div id="installMsg" style="color:var(--muted);font-size:12px;margin-top:2px"></div></div><button onclick="dismissInstall()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;min-height:40px">Got it</button></div>
+<script>
+var LANG=localStorage.getItem('bbxLang')||'en';
+var TX={player1:['PLAYER 1','\u73A9\u5BB6 1'],player2:['PLAYER 2','\u73A9\u5BB6 2'],undo:['Undo','\u64A4\u92B7'],parts:['Parts','\u96F6\u4EF6'],newG:['New','\u65B0\u5C40'],selectParts:['Select Parts','\u9078\u64C7\u96F6\u4EF6'],blade:['Blade:','\u6230\u5203:'],ratchet:['Ratchet:','\u56FA\u9396:'],bit:['Bit:','\u8EF8\u5FC3:'],assist:['Assist:','\u8F14\u52A9:'],confirm:['Confirm','\u78BA\u8A8D'],clear:['Clear All','\u5168\u90E8\u6E05\u9664'],selBlade:['-- Blade --','-- \u6230\u5203 --'],selAssist:['-- Assist --','-- \u8F14\u52A9 --'],selRatchet:['-- Ratchet --','-- \u56FA\u9396 --'],selBit:['-- Bit --','-- \u8EF8\u5FC3 --'],matchHistory:['Match History','\u5C0D\u6230\u7D00\u9304'],noMatches:['No matches yet.','\u5C1A\u7121\u5C0D\u6230\u7D00\u9304\u3002'],clearAll:['Clear All','\u6E05\u9664\u5168\u90E8'],clearConfirm:['Clear all history?','\u6E05\u9664\u6240\u6709\u7D00\u9304\uFF1F'],syncing:['Syncing...','\u540C\u6B65\u4E2D...'],synced:['Synced!','\u540C\u6B65\u5B8C\u6210\uFF01'],offline:['Offline data','\u96E2\u7DDA\u8CC7\u6599'],estTotal:['Est.','\u4F30\u8A08'],p1Wins:['\uD83C\uDFC6 P1 Wins','\uD83C\uDFC6 \u73A9\u5BB6 1 \u52DD'],p2Wins:['\uD83C\uDFC6 P2 Wins','\uD83C\uDFC6 \u73A9\u5BB6 2 \u52DD'],tapExpand:['\u25BC Details','\u25BC \u8A73\u60C5'],tapCollapse:['\u25B2 Collapse','\u25B2 \u6536\u8D77']};
+function tx(k){return TX[k]?TX[k][LANG==='zh'?1:0]:k;}
+var FB_BLADES=[
+['DranSword','蒼龍神劍','attack',34.5,'BX'],
+['DranDagger','蒼龍利刃','attack',34.7,'BX'],
+['DranBuster','蒼龍爆刃','attack',36.4,'UX'],
+['DranBrave','蒼龍勇氣','attack',36,'CX'],
+['DranStrike','翔龍突擊','attack',35,'BX'],
+['HellsScythe','惡魔紅鎌','balance',32.7,'BX'],
+['HellsChain','惡魔鎖鏈','balance',33.2,'BX'],
+['HellsHammer','惡魔戰槌','balance',33,'UX'],
+['HellsReaper','惡魔獵魂','balance',33.5,'CX'],
+['WizardArrow','魔導幻箭','stamina',31.8,'BX'],
+['WizardRod','魔導神杖','stamina',35.4,'UX'],
+['WizardArc','魔導至尊','stamina',33,'CX'],
+['KnightShield','騎士重盾','defense',32.2,'BX'],
+['KnightLance','騎士長槍','defense',32.6,'BX'],
+['KnightMail','騎士圓甲','defense',34,'UX'],
+['KnightFortress','騎士堡壘','defense',34,'CX'],
+['SharkEdge','鯊鋒鰭','attack',34.5,'BX'],
+['SharkScale','鯊狂鱗','attack',34,'UX'],
+['LeonClaw','雄獅獵爪','balance',30.8,'BX'],
+['LeonCrest','雄獅巔峰','defense',33.5,'UX'],
+['LeonFang','獅王獠牙','attack',34,'CX'],
+['ViperTail','王蛇鞭尾','stamina',34.7,'BX'],
+['RhinoHorn','戰犀號角','defense',32.15,'BX'],
+['PhoenixWing','鳳凰飛翼','stamina',38,'BX'],
+['PhoenixFeather','鳳凰翔羽','attack',33,'BX'],
+['PhoenixRudder','鳳凰尾翼','stamina',34,'UX'],
+['PhoenixFlare','鳳凰炎光','defense',35.5,'CX'],
+['UnicornSting','獨角刺心','balance',33.4,'BX'],
+['UnicornTricera','獨角三角','balance',34,'CX'],
+['SphinxCowl','幻神護甲','defense',32.8,'BX'],
+['WeissTiger','皓戰猛虎','balance',34.6,'BX'],
+['CobaltDragoon','蒼穹龍騎士','attack',37.8,'BX'],
+['BlackShell','玄冥戰甲','defense',32.4,'BX'],
+['WhaleWave','巨鯨怒濤','stamina',33,'BX'],
+['BearScratch','狂熊銳爪','attack',29.9,'BX'],
+['SilverWolf','霜輝銀狼','stamina',36.8,'UX'],
+['WyvernGale','飛龍旋翼','stamina',31.9,'BX'],
+['CrimsonGaruda','赫燃天鳳','balance',35,'BX'],
+['ImpactDrake','衝擊龍神','attack',35.5,'UX'],
+['GhostCircle','幽靈元魂','stamina',32,'UX'],
+['GolemRock','魔像奇岩','defense',34,'UX'],
+['ShelterDrake','護城龍神','defense',33.5,'BX'],
+['TyrannoBeat','暴龍霸擊','attack',36.7,'BX'],
+['TyrannoRoar','暴龍咆哮','attack',36,'UX'],
+['TriceraPress','三角強襲','defense',33,'BX'],
+['SamuraiCalibur','武士魂斬','balance',35,'BX'],
+['SamuraiSaber','武士星劍','attack',35,'UX'],
+['SamuraiSteel','鋼鐵武士','attack',34.5,'BX'],
+['MeteorDragoon','隕星龍騎','attack',36,'UX'],
+['MummyCurse','木乃伊詛咒','defense',33,'UX'],
+['ScorpioSpear','天蠍長矛','balance',34,'UX'],
+['ShinobiShadow','忍者闇影','defense',28,'UX'],
+['ClockMirage','時鐘幻象','stamina',33,'UX'],
+['AeroPegasus','空力天馬','stamina',33,'UX'],
+['PerseusDark','英仙幽冥','defense',34,'CX'],
+['FoxBrush','極狐九尾','attack',32,'CX'],
+['PegasusBlast','天馬爆擊','attack',35,'CX'],
+['CerberusFlame','魔犬烈焰','stamina',34,'CX'],
+['WolfHunt','銀狼狩獵','stamina',33.5,'CX'],
+['EmperorMight','帝王威能','balance',36,'CX'],
+['BahamutBlitz','龍王閃擊','attack',34,'CX'],
+['RagnaRage','邪神狂怒','stamina',33.5,'CX'],
+['BulletGriffon','子彈獅鷲','balance',36,'UX'],
+['ValkyriVolt','戰神伏特','attack',35,'CX'],
+['BrachioWhip','腕龍神鞭','stamina',33.5,'CX'],
+['MammothTusk','猛獁巨牙','attack',35,'BX'],
+['PteraSwing','翼龍振翅','stamina',34.3,'BX']
+];
+var FB_RATCHETS=['0-60','0-70','0-80','1-50','1-60','1-70','1-80','2-60','2-70','2-80','3-60','3-70','3-80','3-85','4-50','4-55','4-60','4-70','4-80','5-60','5-70','5-80','6-60','6-70','6-80','7-55','7-60','7-70','7-80','8-70','9-60','9-65','9-70','9-80','M-85'];
+var FB_BITS=[
+['A','Accel','<b>A</b>ccel'],
+['B','Ball','<b>B</b>all'],
+['BS','BoundSpike','<b>B</b>ound <b>S</b>pike'],
+['C','Cyclone','<b>C</b>yclone'],
+['D','Dot','<b>D</b>ot'],
+['DB','DiskBall','<b>D</b>isk <b>B</b>all'],
+['DS','DriveSpike','<b>D</b>rive <b>S</b>pike'],
+['E','Elevate','<b>E</b>levate'],
+['F','Flat','<b>F</b>lat'],
+['FB','FreeBall','<b>F</b>ree <b>B</b>all'],
+['FF','FreeFlat','<b>F</b>ree <b>F</b>lat'],
+['G','Glide','<b>G</b>lide'],
+['GB','GearBall','<b>G</b>ear <b>B</b>all'],
+['GF','GearFlat','<b>G</b>ear <b>F</b>lat'],
+['GN','GearNeedle','<b>G</b>ear <b>N</b>eedle'],
+['GP','GearPoint','<b>G</b>ear <b>P</b>oint'],
+['GR','GearRush','<b>G</b>ear <b>R</b>ush'],
+['GU','GearUnite','<b>G</b>ear <b>U</b>nite'],
+['H','Hexa','<b>H</b>exa'],
+['HN','HighNeedle','<b>H</b>igh <b>N</b>eedle'],
+['HT','HighTaper','<b>H</b>igh <b>T</b>aper'],
+['I','Ignition','<b>I</b>gnition'],
+['J','Jolt','<b>J</b>olt'],
+['K','Kick','<b>K</b>ick'],
+['L','Level','<b>L</b>evel'],
+['LF','LowFlat','<b>L</b>ow <b>F</b>lat'],
+['LO','LowOrb','<b>L</b>ow <b>O</b>rb'],
+['LR','LowRush','<b>L</b>ow <b>R</b>ush'],
+['M','Merge','<b>M</b>erge'],
+['MN','MetalNeedle','<b>M</b>etal <b>N</b>eedle'],
+['N','Needle','<b>N</b>eedle'],
+['Nr','Narrow','<b>N</b>a<b>r</b>row'],
+['O','Orb','<b>O</b>rb'],
+['Op','Operate','<b>Op</b>erate'],
+['P','Point','<b>P</b>oint'],
+['Q','Quake','<b>Q</b>uake'],
+['R','Rush','<b>R</b>ush'],
+['RA','RubberAccel','<b>R</b>ubber <b>A</b>ccel'],
+['S','Spike','<b>S</b>pike'],
+['T','Taper','<b>T</b>aper'],
+['TK','TransKick','<b>T</b>rans <b>K</b>ick'],
+['TP','TransPoint','<b>T</b>rans <b>P</b>oint'],
+['Tr','Turbo','<b>T</b>u<b>r</b>bo'],
+['U','Unite','<b>U</b>nite'],
+['UF','UnderFlat','<b>U</b>nder <b>F</b>lat'],
+['UN','UnderNeedle','<b>U</b>nder <b>N</b>eedle'],
+['V','Vortex','<b>V</b>ortex'],
+['W','Wedge','<b>W</b>edge'],
+['WB','WallBall','<b>W</b>all <b>B</b>all'],
+['WW','WallWedge','<b>W</b>all <b>W</b>edge'],
+['Y','Yielding','<b>Y</b>ielding'],
+['Z','Zap','<b>Z</b>ap']
+];
+var FB_ASSISTS=[
+['A','Assault','突擊'],
+['B','Bumper','緩衝'],
+['C','Charge','衝鋒'],
+['D','Dual','雙面'],
+['E','Erase','消除'],
+['F','Free','自由'],
+['H','Heavy','重型'],
+['J','Jaggy','鋸齒'],
+['K','Knuckle','拳擊'],
+['M','Massive','巨大'],
+['O','Odd','異形'],
+['R','Round','圓型'],
+['S','Slash','斬擊'],
+['T','Turn','旋轉'],
+['V','Vertical','垂直'],
+['W','Wheel','車輪'],
+['Z','Zillion','無限']
+];
+var bladeWtMap={},bladeTypeMap={},bladeZhMap={},bladeSysMap={};
+var bladeList=[],ratchetList=[],bitList=[];
+FB_BLADES.forEach(function(b){bladeWtMap[b[0]]=b[3];bladeTypeMap[b[0]]=b[2];bladeZhMap[b[0]]=b[1];bladeSysMap[b[0]]=b[4];});
+function getRW(n){var p=n.split('-');var h=parseInt(p[1])||60;if(h<=50)return 5;if(h<=55)return 5.5;if(h<=60)return 6.5;if(h<=65)return 6.8;if(h<=70)return 7;if(h<=80)return 7.5;return 8;}
+function getBitW(){return 2;}
+function getBladeWt(n){return bladeWtMap[n]||33;}
+function getTotalWt(pp){var t=0;if(pp.blade)t+=getBladeWt(pp.blade);if(pp.ratchet)t+=getRW(pp.ratchet);if(pp.bit)t+=getBitW();return t;}
+function isCX(n){return bladeSysMap[n]==='CX';}
+function getBitObj(a){for(var i=0;i<FB_BITS.length;i++){if(FB_BITS[i][0]===a)return FB_BITS[i];}return null;}
+function getAssistObj(a){for(var i=0;i<FB_ASSISTS.length;i++){if(FB_ASSISTS[i][0]===a)return FB_ASSISTS[i];}return null;}
+function copyPP(pp){return {blade:pp.blade,assist:pp.assist,ratchet:pp.ratchet,bit:pp.bit};}
+var s1=0,s2=0,rounds=[],gameOver=false;
+var pp1={blade:'',assist:'',ratchet:'',bit:''},pp2={blade:'',assist:'',ratchet:'',bit:''};
+var matchHist=JSON.parse(localStorage.getItem('bbxHist')||'[]');
+function initData(){bladeList=[];ratchetList=[];bitList=[];var seen={};FB_BLADES.forEach(function(b){if(!seen[b[0]]){bladeList.push(b[0]);seen[b[0]]=true;}});ratchetList=FB_RATCHETS.slice();FB_BITS.forEach(function(b){bitList.push(b[0]);});bladeList.sort();ratchetList.sort(function(a,b){var pa=a.split('-'),pb=b.split('-');var a0=pa[0]==='M'?99:parseInt(pa[0]),b0=pb[0]==='M'?99:parseInt(pb[0]);if(a0!==b0)return a0-b0;return parseInt(pa[1])-parseInt(pb[1]);});bitList.sort();}
+function getBladeLbl(name){var zh=bladeZhMap[name]||'';var tp=bladeTypeMap[name]||'balance';var w=getBladeWt(name);var sys=bladeSysMap[name]||'BX';if(LANG==='zh'&&zh)return '['+sys+'] '+zh+' ('+name+') ~'+w.toFixed(1)+'g';return '['+sys+'] '+name+(zh?' ('+zh+')':'')+' ['+tp.charAt(0).toUpperCase()+tp.slice(1)+'] ~'+w.toFixed(1)+'g';}
+function getBitLbl(a){var bo=getBitObj(a);if(!bo)return a;if(LANG==='zh')return a;return a+' - '+bo[2];}
+function getAssistLbl(a){var ao=getAssistObj(a);if(!ao)return a;if(LANG==='zh')return a+' '+ao[2];return a+' - '+ao[1];}
+function modelStr(pp){var parts=[];if(pp.blade){var n=LANG==='zh'?(bladeZhMap[pp.blade]||pp.blade):pp.blade;parts.push(n);}if(pp.assist)parts.push(pp.assist);if(pp.ratchet)parts.push(pp.ratchet);if(pp.bit)parts.push(pp.bit);return parts.join(' ');}
+function bitDisp(a){if(LANG==='zh')return a;var bo=getBitObj(a);return bo?bo[2]:a;}
+function fillSel(id,items,defTxt,lblFn){var el=document.getElementById(id);el.innerHTML='<option value="">'+defTxt+'</option>';items.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=lblFn(v);el.appendChild(o);});}
+function populateDD(){var bL=function(n){return getBladeLbl(n);};var rL=function(n){return n+' (~'+getRW(n).toFixed(1)+'g)';};var biL=function(a){return getBitLbl(a);};fillSel('s1Blade',bladeList,tx('selBlade'),bL);fillSel('s2Blade',bladeList,tx('selBlade'),bL);fillSel('s1Ratchet',ratchetList,tx('selRatchet'),rL);fillSel('s2Ratchet',ratchetList,tx('selRatchet'),rL);fillSel('s1Bit',bitList,tx('selBit'),biL);fillSel('s2Bit',bitList,tx('selBit'),biL);var aL=function(a){return getAssistLbl(a);};var al=[];FB_ASSISTS.forEach(function(a){al.push(a[0]);});fillSel('s1Assist',al,tx('selAssist'),aL);fillSel('s2Assist',al,tx('selAssist'),aL);}
+function showToast(msg,dur){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(dur)setTimeout(function(){t.classList.remove('show');},dur);}
+function updateUI(){document.getElementById('p1Name').textContent=tx('player1');document.getElementById('p2Name').textContent=tx('player2');document.getElementById('undoBtn').innerHTML='&#8617;'+tx('undo');document.getElementById('partsBtn').innerHTML='&#9881;'+tx('parts');document.getElementById('newBtn').innerHTML='&#128260;'+tx('newG');document.getElementById('histTitle').innerHTML='&#128203; '+tx('matchHistory');document.getElementById('clearHistBtn').innerHTML='&#128465; '+tx('clearAll');document.getElementById('confirmBtn').textContent=tx('confirm');document.getElementById('clearBtn').textContent=tx('clear');document.getElementById('partsTitle').textContent=tx('selectParts');document.getElementById('p1Hdr').textContent=tx('player1');document.getElementById('p2Hdr').textContent=tx('player2');var bL=tx('blade'),rL=tx('ratchet'),biL=tx('bit'),aL=tx('assist');document.getElementById('lb1B').textContent=bL;document.getElementById('lb2B').textContent=bL;document.getElementById('lb1R').textContent=rL;document.getElementById('lb2R').textContent=rL;document.getElementById('lb1Bit').textContent=biL;document.getElementById('lb2Bit').textContent=biL;document.getElementById('lb1A').textContent=aL;document.getElementById('lb2A').textContent=aL;populateDD();renderDisp(1);renderDisp(2);}
+function toggleLang(){LANG=(LANG==='en')?'zh':'en';localStorage.setItem('bbxLang',LANG);updateUI();showToast(LANG==='zh'?'\u5DF2\u5207\u63DB\u81F3\u4E2D\u6587':'Switched to English',1500);}
+function renderDisp(p){var pp=p===1?pp1:pp2;var el=document.getElementById('p'+p+'Disp');if(!pp.blade&&!pp.ratchet&&!pp.bit){el.innerHTML='';return;}var html='';if(pp.blade){var sys=bladeSysMap[pp.blade]||'BX';html+='<span class="sys-badge sys-'+sys.toLowerCase()+'">'+sys+'</span>';var tp=bladeTypeMap[pp.blade]||'balance';html+='<span class="type-badge t-'+tp+'">'+tp+'</span> ';var dn=LANG==='zh'?(bladeZhMap[pp.blade]||pp.blade):pp.blade;html+='<span style="font-weight:600">'+dn+'</span> ';}if(pp.assist)html+='<span style="color:#e8daef;font-weight:600">'+pp.assist+'</span> ';if(pp.ratchet)html+='<span style="color:#aaa">'+pp.ratchet+'</span>';if(pp.bit)html+='<span style="color:#aaa">'+bitDisp(pp.bit)+'</span>';var tw=getTotalWt(pp);if(tw>0)html+=' <span class="wt">\u2696~'+tw.toFixed(1)+'g</span>';el.innerHTML=html;}
+function onBladeChange1(){var v=document.getElementById('s1Blade').value;document.getElementById('a1Wrap').classList.toggle('hidden',!(v&&isCX(v)));if(!(v&&isCX(v)))document.getElementById('s1Assist').value='';updWt(1);}
+function onBladeChange2(){var v=document.getElementById('s2Blade').value;document.getElementById('a2Wrap').classList.toggle('hidden',!(v&&isCX(v)));if(!(v&&isCX(v)))document.getElementById('s2Assist').value='';updWt(2);}
+document.getElementById('s1Blade').addEventListener('change',onBladeChange1);document.getElementById('s1Ratchet').addEventListener('change',function(){updWt(1);});document.getElementById('s1Bit').addEventListener('change',function(){updWt(1);});document.getElementById('s1Assist').addEventListener('change',function(){updWt(1);});
+document.getElementById('s2Blade').addEventListener('change',onBladeChange2);document.getElementById('s2Ratchet').addEventListener('change',function(){updWt(2);});document.getElementById('s2Bit').addEventListener('change',function(){updWt(2);});document.getElementById('s2Assist').addEventListener('change',function(){updWt(2);});
+function openParts(){document.getElementById('partsOvl').classList.remove('hidden');document.getElementById('s1Blade').value=pp1.blade;document.getElementById('s1Assist').value=pp1.assist;document.getElementById('s1Ratchet').value=pp1.ratchet;document.getElementById('s1Bit').value=pp1.bit;document.getElementById('s2Blade').value=pp2.blade;document.getElementById('s2Assist').value=pp2.assist;document.getElementById('s2Ratchet').value=pp2.ratchet;document.getElementById('s2Bit').value=pp2.bit;onBladeChange1();onBladeChange2();}
+function closeParts(){document.getElementById('partsOvl').classList.add('hidden');}
+function confirmParts(){pp1.blade=document.getElementById('s1Blade').value;pp1.assist=(pp1.blade&&isCX(pp1.blade))?document.getElementById('s1Assist').value:'';pp1.ratchet=document.getElementById('s1Ratchet').value;pp1.bit=document.getElementById('s1Bit').value;pp2.blade=document.getElementById('s2Blade').value;pp2.assist=(pp2.blade&&isCX(pp2.blade))?document.getElementById('s2Assist').value:'';pp2.ratchet=document.getElementById('s2Ratchet').value;pp2.bit=document.getElementById('s2Bit').value;renderDisp(1);renderDisp(2);closeParts();}
+function clearAllParts(){['s1Blade','s1Assist','s1Ratchet','s1Bit','s2Blade','s2Assist','s2Ratchet','s2Bit'].forEach(function(id){document.getElementById(id).value='';});onBladeChange1();onBladeChange2();}
+function updWt(p){var bl=document.getElementById('s'+p+'Blade').value,ra=document.getElementById('s'+p+'Ratchet').value,bi=document.getElementById('s'+p+'Bit').value;var t=0;if(bl)t+=getBladeWt(bl);if(ra)t+=getRW(ra);if(bi)t+=getBitW();document.getElementById('wt'+p).textContent=t>0?'\u2696 '+tx('estTotal')+' ~'+t.toFixed(1)+'g':'';}
+function addPt(player,pts){if(gameOver)return;var rnd={p1Bey:copyPP(pp1),p2Bey:copyPP(pp2),scorer:player,pts:pts};if(player===1)s1+=pts;else s2+=pts;rnd.cumS1=s1;rnd.cumS2=s2;rounds.push(rnd);document.getElementById('p1Score').textContent=s1;document.getElementById('p2Score').textContent=s2;checkWin();}
+function undoScore(){if(gameOver)return;if(rounds.length===0)return;rounds.pop();s1=0;s2=0;for(var i=0;i<rounds.length;i++){if(rounds[i].scorer===1)s1+=rounds[i].pts;else s2+=rounds[i].pts;rounds[i].cumS1=s1;rounds[i].cumS2=s2;}document.getElementById('p1Score').textContent=s1;document.getElementById('p2Score').textContent=s2;}
+function checkWin(){if(s1>=4){gameOver=true;document.getElementById('p1Score').classList.add('winner');saveMatch(1);try{navigator.vibrate([100,50,200]);}catch(e){}}else if(s2>=4){gameOver=true;document.getElementById('p2Score').classList.add('winner');saveMatch(2);try{navigator.vibrate([100,50,200]);}catch(e){}}}
+function newGame(){s1=0;s2=0;rounds=[];gameOver=false;document.getElementById('p1Score').textContent='0';document.getElementById('p2Score').textContent='0';document.getElementById('p1Score').classList.remove('winner');document.getElementById('p2Score').classList.remove('winner');}
+function saveMatch(winner){var rec={ts:new Date().toISOString(),s1:s1,s2:s2,w:winner,rounds:[]};for(var i=0;i<rounds.length;i++){rec.rounds.push({p1Bey:copyPP(rounds[i].p1Bey),p2Bey:copyPP(rounds[i].p2Bey),scorer:rounds[i].scorer,pts:rounds[i].pts,cumS1:rounds[i].cumS1,cumS2:rounds[i].cumS2});}matchHist.unshift(rec);if(matchHist.length>200)matchHist=matchHist.slice(0,200);localStorage.setItem('bbxHist',JSON.stringify(matchHist));}
+function toggleRounds(idx){var el=document.getElementById('hcr-'+idx);var btn=document.getElementById('hce-'+idx);if(el.classList.contains('open')){el.classList.remove('open');btn.innerHTML=tx('tapExpand');}else{el.classList.add('open');btn.innerHTML=tx('tapCollapse');}}
+function openHist(){document.getElementById('histOvl').classList.remove('hidden');var el=document.getElementById('histList');if(matchHist.length===0){el.innerHTML='<p style="text-align:center;color:#888;margin:20px">'+tx('noMatches')+'</p>';return;}var html='';for(var i=0;i<matchHist.length;i++){var m=matchHist[i];var d=new Date(m.ts);var ds=d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});var num=matchHist.length-i;var p1wc=m.w===1?' wl':'';var p2wc=m.w===2?' wl':'';html+='<div class="hcard" onclick="toggleRounds('+i+')">';html+='<div class="hh"><span>#'+num+'</span><span>'+ds+'</span></div>';html+='<div class="hb">';html+='<div class="hs"><span class="'+p1wc+'" style="color:var(--p1);font-size:1.4em;font-weight:900">'+m.s1+'</span></div>';html+='<div class="hvs">VS</div>';html+='<div class="hs"><span class="'+p2wc+'" style="color:var(--p2);font-size:1.4em;font-weight:900">'+m.s2+'</span></div>';html+='</div>';html+='<div style="text-align:center;margin-top:2px;font-size:.85em">'+(m.w===1?tx('p1Wins'):tx('p2Wins'))+'</div>';html+='<div class="hc-expand" id="hce-'+i+'">'+tx('tapExpand')+'</div>';html+='<div class="hc-rounds" id="hcr-'+i+'">';if(m.rounds&&m.rounds.length>0){for(var j=0;j<m.rounds.length;j++){var r=m.rounds[j];var m1=modelStr(r.p1Bey);var m2=modelStr(r.p2Bey);var sc=r.scorer===1?'P1':'P2';var scClass=r.scorer===1?'rnd-p1':'rnd-p2';html+='<div class="rnd-row"><span class="rnd-num">R'+(j+1)+'</span> '+m1+' vs '+m2+' \u2192 <span class="'+scClass+'">'+sc+' +'+r.pts+'</span> <span style="color:#888">('+r.cumS1+'-'+r.cumS2+')</span></div>';}}else{html+='<div class="rnd-row" style="color:#555">(No round data)</div>';}html+='</div></div>';}el.innerHTML=html;}
+function closeHist(){document.getElementById('histOvl').classList.add('hidden');}
+function clearHist(){if(confirm(tx('clearConfirm'))){matchHist=[];localStorage.removeItem('bbxHist');document.getElementById('histList').innerHTML='<p style="text-align:center;color:#888;margin:20px">'+tx('noMatches')+'</p>';}}
+function fetchT(url,ms){var c=new AbortController();var t=setTimeout(function(){c.abort();},ms);return fetch(url,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error();return r.json();}).catch(function(){clearTimeout(t);return null;});}
+function mergePartsJSON(data){if(!data)return false;var upd=false;if(data.blades){var seen={};bladeList.forEach(function(n){seen[n]=true;});data.blades.forEach(function(b){if(!seen[b.en]){bladeList.push(b.en);seen[b.en]=true;upd=true;}bladeTypeMap[b.en]=b.type;bladeWtMap[b.en]=b.weight;bladeZhMap[b.en]=b.zh;bladeSysMap[b.en]=b.system;});bladeList.sort();}if(data.ratchets){var rs={};ratchetList.forEach(function(n){rs[n]=true;});data.ratchets.forEach(function(n){if(!rs[n]){ratchetList.push(n);rs[n]=true;upd=true;}});ratchetList.sort(function(a,b){var pa=a.split('-'),pb=b.split('-');var a0=pa[0]==='M'?99:parseInt(pa[0]),b0=pb[0]==='M'?99:parseInt(pb[0]);if(a0!==b0)return a0-b0;return parseInt(pa[1])-parseInt(pb[1]);});}if(data.bits){var bs={};bitList.forEach(function(n){bs[n]=true;});data.bits.forEach(function(b){if(!bs[b.abbr]){bitList.push(b.abbr);bs[b.abbr]=true;upd=true;}});bitList.sort();}return upd;}
+function loadLive(){showToast(tx('syncing'),0);fetchT('parts.json',3000).then(function(data){var c=mergePartsJSON(data);if(c)populateDD();showToast(tx('synced')+' '+bladeList.length+' blades',2000);}).catch(function(){showToast(tx('offline')+' ('+bladeList.length+')',2000);});}
+(function(){var manifest={name:'Beyblade X Score Tracker',short_name:'BeyScore',start_url:location.href.split('?')[0],display:'standalone',orientation:'portrait',background_color:'#0d0d0d',theme_color:'#0d0d0d',icons:[{src:'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%2290%22 fill=%22%230d0d0d%22/><circle cx=%22256%22 cy=%22256%22 r=%22200%22 fill=%22none%22 stroke=%22%23ffd700%22 stroke-width=%2220%22/><circle cx=%22256%22 cy=%22256%22 r=%2280%22 fill=%22%231a6fff%22/><circle cx=%22256%22 cy=%22256%22 r=%2230%22 fill=%22%23ffd700%22/></svg>',sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};var blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});var link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link);})();
+(function(){if(localStorage.getItem('bbxInstDismissed'))return;if(window.matchMedia&&window.matchMedia('(display-mode:standalone)').matches)return;if(window.navigator.standalone===true)return;var banner=document.getElementById('installBanner');var msg=document.getElementById('installMsg');var iOS=/iPad|iPhone|iPod/.test(navigator.userAgent);var android=/Android/.test(navigator.userAgent);if(iOS){msg.innerHTML='Tap <b>Share</b> \u2B06 then <b>Add to Home Screen</b>';}else if(android){msg.innerHTML='Tap <b>\u22EE Menu</b> then <b>Install app</b>';}else{msg.innerHTML='Add to home screen for best experience';}banner.classList.remove('hidden');banner.style.display='flex';setTimeout(function(){dismissInstall();},10000);})();
+function dismissInstall(){var b=document.getElementById('installBanner');if(b){b.classList.add('hidden');b.style.display='none';}localStorage.setItem('bbxInstDismissed','1');}
+initData();populateDD();updateUI();renderDisp(1);renderDisp(2);loadLive();
+</script>
+</body>
+</html>
