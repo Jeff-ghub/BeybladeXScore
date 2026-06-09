@@ -1,0 +1,859 @@
+{
+  "blades": [
+    {
+      "en": "DranSword",
+      "zh": "蒼龍神劍",
+      "type": "attack",
+      "weight": 34.5,
+      "system": "BX"
+    },
+    {
+      "en": "DranDagger",
+      "zh": "蒼龍利刃",
+      "type": "attack",
+      "weight": 34.7,
+      "system": "BX"
+    },
+    {
+      "en": "DranBuster",
+      "zh": "蒼龍爆刃",
+      "type": "attack",
+      "weight": 36.4,
+      "system": "UX"
+    },
+    {
+      "en": "DranBrave",
+      "zh": "蒼龍勇氣",
+      "type": "attack",
+      "weight": 36,
+      "system": "CX"
+    },
+    {
+      "en": "DranStrike",
+      "zh": "翔龍突擊",
+      "type": "attack",
+      "weight": 35,
+      "system": "BX"
+    },
+    {
+      "en": "HellsScythe",
+      "zh": "惡魔紅鎌",
+      "type": "balance",
+      "weight": 32.7,
+      "system": "BX"
+    },
+    {
+      "en": "HellsChain",
+      "zh": "惡魔鎖鏈",
+      "type": "balance",
+      "weight": 33.2,
+      "system": "BX"
+    },
+    {
+      "en": "HellsHammer",
+      "zh": "惡魔戰槌",
+      "type": "balance",
+      "weight": 33,
+      "system": "UX"
+    },
+    {
+      "en": "HellsReaper",
+      "zh": "惡魔獵魂",
+      "type": "balance",
+      "weight": 33.5,
+      "system": "CX"
+    },
+    {
+      "en": "WizardArrow",
+      "zh": "魔導幻箭",
+      "type": "stamina",
+      "weight": 31.8,
+      "system": "BX"
+    },
+    {
+      "en": "WizardRod",
+      "zh": "魔導神杖",
+      "type": "stamina",
+      "weight": 35.4,
+      "system": "UX"
+    },
+    {
+      "en": "WizardArc",
+      "zh": "魔導至尊",
+      "type": "stamina",
+      "weight": 33,
+      "system": "CX"
+    },
+    {
+      "en": "KnightShield",
+      "zh": "騎士重盾",
+      "type": "defense",
+      "weight": 32.2,
+      "system": "BX"
+    },
+    {
+      "en": "KnightLance",
+      "zh": "騎士長槍",
+      "type": "defense",
+      "weight": 32.6,
+      "system": "BX"
+    },
+    {
+      "en": "KnightMail",
+      "zh": "騎士圓甲",
+      "type": "defense",
+      "weight": 34,
+      "system": "UX"
+    },
+    {
+      "en": "KnightFortress",
+      "zh": "騎士堡壘",
+      "type": "defense",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "SharkEdge",
+      "zh": "鯊鋒鰭",
+      "type": "attack",
+      "weight": 34.5,
+      "system": "BX"
+    },
+    {
+      "en": "SharkScale",
+      "zh": "鯊狂鱗",
+      "type": "attack",
+      "weight": 34,
+      "system": "UX"
+    },
+    {
+      "en": "LeonClaw",
+      "zh": "雄獅獵爪",
+      "type": "balance",
+      "weight": 30.8,
+      "system": "BX"
+    },
+    {
+      "en": "LeonCrest",
+      "zh": "雄獅巔峰",
+      "type": "defense",
+      "weight": 33.5,
+      "system": "UX"
+    },
+    {
+      "en": "LeonFang",
+      "zh": "獅王獠牙",
+      "type": "attack",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "ViperTail",
+      "zh": "王蛇鞭尾",
+      "type": "stamina",
+      "weight": 34.7,
+      "system": "BX"
+    },
+    {
+      "en": "RhinoHorn",
+      "zh": "戰犀號角",
+      "type": "defense",
+      "weight": 32.15,
+      "system": "BX"
+    },
+    {
+      "en": "PhoenixWing",
+      "zh": "鳳凰飛翼",
+      "type": "stamina",
+      "weight": 38,
+      "system": "BX"
+    },
+    {
+      "en": "PhoenixFeather",
+      "zh": "鳳凰翔羽",
+      "type": "attack",
+      "weight": 33,
+      "system": "BX"
+    },
+    {
+      "en": "PhoenixRudder",
+      "zh": "鳳凰尾翼",
+      "type": "stamina",
+      "weight": 34,
+      "system": "UX"
+    },
+    {
+      "en": "PhoenixFlare",
+      "zh": "鳳凰炎光",
+      "type": "defense",
+      "weight": 35.5,
+      "system": "CX"
+    },
+    {
+      "en": "UnicornSting",
+      "zh": "獨角刺心",
+      "type": "balance",
+      "weight": 33.4,
+      "system": "BX"
+    },
+    {
+      "en": "UnicornTricera",
+      "zh": "獨角三角",
+      "type": "balance",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "SphinxCowl",
+      "zh": "幻神護甲",
+      "type": "defense",
+      "weight": 32.8,
+      "system": "BX"
+    },
+    {
+      "en": "WeissTiger",
+      "zh": "皓戰猛虎",
+      "type": "balance",
+      "weight": 34.6,
+      "system": "BX"
+    },
+    {
+      "en": "CobaltDragoon",
+      "zh": "蒼穹龍騎士",
+      "type": "attack",
+      "weight": 37.8,
+      "system": "BX"
+    },
+    {
+      "en": "BlackShell",
+      "zh": "玄冥戰甲",
+      "type": "defense",
+      "weight": 32.4,
+      "system": "BX"
+    },
+    {
+      "en": "WhaleWave",
+      "zh": "巨鯨怒濤",
+      "type": "stamina",
+      "weight": 33,
+      "system": "BX"
+    },
+    {
+      "en": "BearScratch",
+      "zh": "狂熊銳爪",
+      "type": "attack",
+      "weight": 29.9,
+      "system": "BX"
+    },
+    {
+      "en": "SilverWolf",
+      "zh": "霜輝銀狼",
+      "type": "stamina",
+      "weight": 36.8,
+      "system": "UX"
+    },
+    {
+      "en": "WyvernGale",
+      "zh": "飛龍旋翼",
+      "type": "stamina",
+      "weight": 31.9,
+      "system": "BX"
+    },
+    {
+      "en": "CrimsonGaruda",
+      "zh": "赫燃天鳳",
+      "type": "balance",
+      "weight": 35,
+      "system": "BX"
+    },
+    {
+      "en": "ImpactDrake",
+      "zh": "衝擊龍神",
+      "type": "attack",
+      "weight": 35.5,
+      "system": "UX"
+    },
+    {
+      "en": "GhostCircle",
+      "zh": "幽靈元魂",
+      "type": "stamina",
+      "weight": 32,
+      "system": "UX"
+    },
+    {
+      "en": "GolemRock",
+      "zh": "魔像奇岩",
+      "type": "defense",
+      "weight": 34,
+      "system": "UX"
+    },
+    {
+      "en": "ShelterDrake",
+      "zh": "護城龍神",
+      "type": "defense",
+      "weight": 33.5,
+      "system": "BX"
+    },
+    {
+      "en": "TyrannoBeat",
+      "zh": "暴龍霸擊",
+      "type": "attack",
+      "weight": 36.7,
+      "system": "BX"
+    },
+    {
+      "en": "TyrannoRoar",
+      "zh": "暴龍咆哮",
+      "type": "attack",
+      "weight": 36,
+      "system": "UX"
+    },
+    {
+      "en": "TriceraPress",
+      "zh": "三角強襲",
+      "type": "defense",
+      "weight": 33,
+      "system": "BX"
+    },
+    {
+      "en": "SamuraiCalibur",
+      "zh": "武士魂斬",
+      "type": "balance",
+      "weight": 35,
+      "system": "BX"
+    },
+    {
+      "en": "SamuraiSaber",
+      "zh": "武士星劍",
+      "type": "attack",
+      "weight": 35,
+      "system": "UX"
+    },
+    {
+      "en": "SamuraiSteel",
+      "zh": "鋼鐵武士",
+      "type": "attack",
+      "weight": 34.5,
+      "system": "BX"
+    },
+    {
+      "en": "MeteorDragoon",
+      "zh": "隕星龍騎",
+      "type": "attack",
+      "weight": 36,
+      "system": "UX"
+    },
+    {
+      "en": "MummyCurse",
+      "zh": "木乃伊詛咒",
+      "type": "defense",
+      "weight": 33,
+      "system": "UX"
+    },
+    {
+      "en": "ScorpioSpear",
+      "zh": "天蠍長矛",
+      "type": "balance",
+      "weight": 34,
+      "system": "UX"
+    },
+    {
+      "en": "ShinobiShadow",
+      "zh": "忍者闇影",
+      "type": "defense",
+      "weight": 28,
+      "system": "UX"
+    },
+    {
+      "en": "ClockMirage",
+      "zh": "時鐘幻象",
+      "type": "stamina",
+      "weight": 33,
+      "system": "UX"
+    },
+    {
+      "en": "AeroPegasus",
+      "zh": "空力天馬",
+      "type": "stamina",
+      "weight": 33,
+      "system": "UX"
+    },
+    {
+      "en": "PerseusDark",
+      "zh": "英仙幽冥",
+      "type": "defense",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "FoxBrush",
+      "zh": "極狐九尾",
+      "type": "attack",
+      "weight": 32,
+      "system": "CX"
+    },
+    {
+      "en": "PegasusBlast",
+      "zh": "天馬爆擊",
+      "type": "attack",
+      "weight": 35,
+      "system": "CX"
+    },
+    {
+      "en": "CerberusFlame",
+      "zh": "魔犬烈焰",
+      "type": "stamina",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "WolfHunt",
+      "zh": "銀狼狩獵",
+      "type": "stamina",
+      "weight": 33.5,
+      "system": "CX"
+    },
+    {
+      "en": "EmperorMight",
+      "zh": "帝王威能",
+      "type": "balance",
+      "weight": 36,
+      "system": "CX"
+    },
+    {
+      "en": "BahamutBlitz",
+      "zh": "龍王閃擊",
+      "type": "attack",
+      "weight": 34,
+      "system": "CX"
+    },
+    {
+      "en": "RagnaRage",
+      "zh": "邪神狂怒",
+      "type": "stamina",
+      "weight": 33.5,
+      "system": "CX"
+    },
+    {
+      "en": "BulletGriffon",
+      "zh": "子彈獅鷲",
+      "type": "balance",
+      "weight": 36,
+      "system": "UX"
+    },
+    {
+      "en": "ValkyriVolt",
+      "zh": "戰神伏特",
+      "type": "attack",
+      "weight": 35,
+      "system": "CX"
+    },
+    {
+      "en": "BrachioWhip",
+      "zh": "腕龍神鞭",
+      "type": "stamina",
+      "weight": 33.5,
+      "system": "CX"
+    },
+    {
+      "en": "MammothTusk",
+      "zh": "猛獁巨牙",
+      "type": "attack",
+      "weight": 35,
+      "system": "BX"
+    },
+    {
+      "en": "PteraSwing",
+      "zh": "翼龍振翅",
+      "type": "stamina",
+      "weight": 34.3,
+      "system": "BX"
+    }
+  ],
+  "ratchets": [
+    "0-60",
+    "0-70",
+    "0-80",
+    "1-50",
+    "1-60",
+    "1-70",
+    "1-80",
+    "2-60",
+    "2-70",
+    "2-80",
+    "3-60",
+    "3-70",
+    "3-80",
+    "3-85",
+    "4-50",
+    "4-55",
+    "4-60",
+    "4-70",
+    "4-80",
+    "5-60",
+    "5-70",
+    "5-80",
+    "6-60",
+    "6-70",
+    "6-80",
+    "7-55",
+    "7-60",
+    "7-70",
+    "7-80",
+    "8-70",
+    "9-60",
+    "9-65",
+    "9-70",
+    "9-80",
+    "M-85"
+  ],
+  "bits": [
+    {
+      "abbr": "A",
+      "en": "Accel",
+      "bold": "<b>A</b>ccel"
+    },
+    {
+      "abbr": "B",
+      "en": "Ball",
+      "bold": "<b>B</b>all"
+    },
+    {
+      "abbr": "BS",
+      "en": "BoundSpike",
+      "bold": "<b>B</b>ound <b>S</b>pike"
+    },
+    {
+      "abbr": "C",
+      "en": "Cyclone",
+      "bold": "<b>C</b>yclone"
+    },
+    {
+      "abbr": "D",
+      "en": "Dot",
+      "bold": "<b>D</b>ot"
+    },
+    {
+      "abbr": "DB",
+      "en": "DiskBall",
+      "bold": "<b>D</b>isk <b>B</b>all"
+    },
+    {
+      "abbr": "DS",
+      "en": "DriveSpike",
+      "bold": "<b>D</b>rive <b>S</b>pike"
+    },
+    {
+      "abbr": "E",
+      "en": "Elevate",
+      "bold": "<b>E</b>levate"
+    },
+    {
+      "abbr": "F",
+      "en": "Flat",
+      "bold": "<b>F</b>lat"
+    },
+    {
+      "abbr": "FB",
+      "en": "FreeBall",
+      "bold": "<b>F</b>ree <b>B</b>all"
+    },
+    {
+      "abbr": "FF",
+      "en": "FreeFlat",
+      "bold": "<b>F</b>ree <b>F</b>lat"
+    },
+    {
+      "abbr": "G",
+      "en": "Glide",
+      "bold": "<b>G</b>lide"
+    },
+    {
+      "abbr": "GB",
+      "en": "GearBall",
+      "bold": "<b>G</b>ear <b>B</b>all"
+    },
+    {
+      "abbr": "GF",
+      "en": "GearFlat",
+      "bold": "<b>G</b>ear <b>F</b>lat"
+    },
+    {
+      "abbr": "GN",
+      "en": "GearNeedle",
+      "bold": "<b>G</b>ear <b>N</b>eedle"
+    },
+    {
+      "abbr": "GP",
+      "en": "GearPoint",
+      "bold": "<b>G</b>ear <b>P</b>oint"
+    },
+    {
+      "abbr": "GR",
+      "en": "GearRush",
+      "bold": "<b>G</b>ear <b>R</b>ush"
+    },
+    {
+      "abbr": "GU",
+      "en": "GearUnite",
+      "bold": "<b>G</b>ear <b>U</b>nite"
+    },
+    {
+      "abbr": "H",
+      "en": "Hexa",
+      "bold": "<b>H</b>exa"
+    },
+    {
+      "abbr": "HN",
+      "en": "HighNeedle",
+      "bold": "<b>H</b>igh <b>N</b>eedle"
+    },
+    {
+      "abbr": "HT",
+      "en": "HighTaper",
+      "bold": "<b>H</b>igh <b>T</b>aper"
+    },
+    {
+      "abbr": "I",
+      "en": "Ignition",
+      "bold": "<b>I</b>gnition"
+    },
+    {
+      "abbr": "J",
+      "en": "Jolt",
+      "bold": "<b>J</b>olt"
+    },
+    {
+      "abbr": "K",
+      "en": "Kick",
+      "bold": "<b>K</b>ick"
+    },
+    {
+      "abbr": "L",
+      "en": "Level",
+      "bold": "<b>L</b>evel"
+    },
+    {
+      "abbr": "LF",
+      "en": "LowFlat",
+      "bold": "<b>L</b>ow <b>F</b>lat"
+    },
+    {
+      "abbr": "LO",
+      "en": "LowOrb",
+      "bold": "<b>L</b>ow <b>O</b>rb"
+    },
+    {
+      "abbr": "LR",
+      "en": "LowRush",
+      "bold": "<b>L</b>ow <b>R</b>ush"
+    },
+    {
+      "abbr": "M",
+      "en": "Merge",
+      "bold": "<b>M</b>erge"
+    },
+    {
+      "abbr": "MN",
+      "en": "MetalNeedle",
+      "bold": "<b>M</b>etal <b>N</b>eedle"
+    },
+    {
+      "abbr": "N",
+      "en": "Needle",
+      "bold": "<b>N</b>eedle"
+    },
+    {
+      "abbr": "Nr",
+      "en": "Narrow",
+      "bold": "<b>N</b>a<b>r</b>row"
+    },
+    {
+      "abbr": "O",
+      "en": "Orb",
+      "bold": "<b>O</b>rb"
+    },
+    {
+      "abbr": "Op",
+      "en": "Operate",
+      "bold": "<b>Op</b>erate"
+    },
+    {
+      "abbr": "P",
+      "en": "Point",
+      "bold": "<b>P</b>oint"
+    },
+    {
+      "abbr": "Q",
+      "en": "Quake",
+      "bold": "<b>Q</b>uake"
+    },
+    {
+      "abbr": "R",
+      "en": "Rush",
+      "bold": "<b>R</b>ush"
+    },
+    {
+      "abbr": "RA",
+      "en": "RubberAccel",
+      "bold": "<b>R</b>ubber <b>A</b>ccel"
+    },
+    {
+      "abbr": "S",
+      "en": "Spike",
+      "bold": "<b>S</b>pike"
+    },
+    {
+      "abbr": "T",
+      "en": "Taper",
+      "bold": "<b>T</b>aper"
+    },
+    {
+      "abbr": "TK",
+      "en": "TransKick",
+      "bold": "<b>T</b>rans <b>K</b>ick"
+    },
+    {
+      "abbr": "TP",
+      "en": "TransPoint",
+      "bold": "<b>T</b>rans <b>P</b>oint"
+    },
+    {
+      "abbr": "Tr",
+      "en": "Turbo",
+      "bold": "<b>T</b>u<b>r</b>bo"
+    },
+    {
+      "abbr": "U",
+      "en": "Unite",
+      "bold": "<b>U</b>nite"
+    },
+    {
+      "abbr": "UF",
+      "en": "UnderFlat",
+      "bold": "<b>U</b>nder <b>F</b>lat"
+    },
+    {
+      "abbr": "UN",
+      "en": "UnderNeedle",
+      "bold": "<b>U</b>nder <b>N</b>eedle"
+    },
+    {
+      "abbr": "V",
+      "en": "Vortex",
+      "bold": "<b>V</b>ortex"
+    },
+    {
+      "abbr": "W",
+      "en": "Wedge",
+      "bold": "<b>W</b>edge"
+    },
+    {
+      "abbr": "WB",
+      "en": "WallBall",
+      "bold": "<b>W</b>all <b>B</b>all"
+    },
+    {
+      "abbr": "WW",
+      "en": "WallWedge",
+      "bold": "<b>W</b>all <b>W</b>edge"
+    },
+    {
+      "abbr": "Y",
+      "en": "Yielding",
+      "bold": "<b>Y</b>ielding"
+    },
+    {
+      "abbr": "Z",
+      "en": "Zap",
+      "bold": "<b>Z</b>ap"
+    }
+  ],
+  "assists": [
+    {
+      "abbr": "A",
+      "en": "Assault",
+      "zh": "突擊"
+    },
+    {
+      "abbr": "B",
+      "en": "Bumper",
+      "zh": "緩衝"
+    },
+    {
+      "abbr": "C",
+      "en": "Charge",
+      "zh": "衝鋒"
+    },
+    {
+      "abbr": "D",
+      "en": "Dual",
+      "zh": "雙面"
+    },
+    {
+      "abbr": "E",
+      "en": "Erase",
+      "zh": "消除"
+    },
+    {
+      "abbr": "F",
+      "en": "Free",
+      "zh": "自由"
+    },
+    {
+      "abbr": "H",
+      "en": "Heavy",
+      "zh": "重型"
+    },
+    {
+      "abbr": "J",
+      "en": "Jaggy",
+      "zh": "鋸齒"
+    },
+    {
+      "abbr": "K",
+      "en": "Knuckle",
+      "zh": "拳擊"
+    },
+    {
+      "abbr": "M",
+      "en": "Massive",
+      "zh": "巨大"
+    },
+    {
+      "abbr": "O",
+      "en": "Odd",
+      "zh": "異形"
+    },
+    {
+      "abbr": "R",
+      "en": "Round",
+      "zh": "圓型"
+    },
+    {
+      "abbr": "S",
+      "en": "Slash",
+      "zh": "斬擊"
+    },
+    {
+      "abbr": "T",
+      "en": "Turn",
+      "zh": "旋轉"
+    },
+    {
+      "abbr": "V",
+      "en": "Vertical",
+      "zh": "垂直"
+    },
+    {
+      "abbr": "W",
+      "en": "Wheel",
+      "zh": "車輪"
+    },
+    {
+      "abbr": "Z",
+      "en": "Zillion",
+      "zh": "無限"
+    }
+  ]
+}
