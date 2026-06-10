@@ -53,7 +53,7 @@
       "en": "HellsHammer",
       "zh": "惡魔戰槌",
       "type": "balance",
-      "weight": 33,
+      "weight": 33.0,
       "system": "UX"
     },
     {
@@ -81,7 +81,7 @@
       "en": "WizardArc",
       "zh": "魔導至尊",
       "type": "stamina",
-      "weight": 33,
+      "weight": 33.0,
       "system": "CX"
     },
     {
@@ -102,14 +102,14 @@
       "en": "KnightMail",
       "zh": "騎士圓甲",
       "type": "defense",
-      "weight": 34,
+      "weight": 34.0,
       "system": "UX"
     },
     {
       "en": "KnightFortress",
       "zh": "騎士堡壘",
       "type": "defense",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
@@ -123,7 +123,7 @@
       "en": "SharkScale",
       "zh": "鯊狂鱗",
       "type": "attack",
-      "weight": 34,
+      "weight": 34.0,
       "system": "UX"
     },
     {
@@ -144,7 +144,7 @@
       "en": "LeonFang",
       "zh": "獅王獠牙",
       "type": "attack",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
@@ -165,21 +165,21 @@
       "en": "PhoenixWing",
       "zh": "鳳凰飛翼",
       "type": "stamina",
-      "weight": 38,
+      "weight": 38.0,
       "system": "BX"
     },
     {
       "en": "PhoenixFeather",
       "zh": "鳳凰翔羽",
       "type": "attack",
-      "weight": 33,
+      "weight": 33.0,
       "system": "BX"
     },
     {
       "en": "PhoenixRudder",
       "zh": "鳳凰尾翼",
       "type": "stamina",
-      "weight": 34,
+      "weight": 34.0,
       "system": "UX"
     },
     {
@@ -200,7 +200,7 @@
       "en": "UnicornTricera",
       "zh": "獨角三角",
       "type": "balance",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
@@ -235,7 +235,7 @@
       "en": "WhaleWave",
       "zh": "巨鯨怒濤",
       "type": "stamina",
-      "weight": 33,
+      "weight": 33.0,
       "system": "BX"
     },
     {
@@ -263,7 +263,7 @@
       "en": "CrimsonGaruda",
       "zh": "赫燃天鳳",
       "type": "balance",
-      "weight": 35,
+      "weight": 35.0,
       "system": "BX"
     },
     {
@@ -277,14 +277,14 @@
       "en": "GhostCircle",
       "zh": "幽靈元魂",
       "type": "stamina",
-      "weight": 32,
+      "weight": 32.0,
       "system": "UX"
     },
     {
       "en": "GolemRock",
       "zh": "魔像奇岩",
       "type": "defense",
-      "weight": 34,
+      "weight": 34.0,
       "system": "UX"
     },
     {
@@ -305,28 +305,28 @@
       "en": "TyrannoRoar",
       "zh": "暴龍咆哮",
       "type": "attack",
-      "weight": 36,
+      "weight": 36.0,
       "system": "UX"
     },
     {
       "en": "TriceraPress",
       "zh": "三角強襲",
       "type": "defense",
-      "weight": 33,
+      "weight": 33.0,
       "system": "BX"
     },
     {
       "en": "SamuraiCalibur",
       "zh": "武士魂斬",
       "type": "balance",
-      "weight": 35,
+      "weight": 35.0,
       "system": "BX"
     },
     {
       "en": "SamuraiSaber",
       "zh": "武士星劍",
       "type": "attack",
-      "weight": 35,
+      "weight": 35.0,
       "system": "UX"
     },
     {
@@ -340,70 +340,70 @@
       "en": "MeteorDragoon",
       "zh": "隕星龍騎",
       "type": "attack",
-      "weight": 36,
+      "weight": 36.0,
       "system": "UX"
     },
     {
       "en": "MummyCurse",
       "zh": "木乃伊詛咒",
       "type": "defense",
-      "weight": 33,
+      "weight": 33.0,
       "system": "UX"
     },
     {
       "en": "ScorpioSpear",
       "zh": "天蠍長矛",
       "type": "balance",
-      "weight": 34,
+      "weight": 34.0,
       "system": "UX"
     },
     {
       "en": "ShinobiShadow",
       "zh": "忍者闇影",
       "type": "defense",
-      "weight": 28,
+      "weight": 28.0,
       "system": "UX"
     },
     {
       "en": "ClockMirage",
       "zh": "時鐘幻象",
       "type": "stamina",
-      "weight": 33,
+      "weight": 33.0,
       "system": "UX"
     },
     {
       "en": "AeroPegasus",
       "zh": "空力天馬",
       "type": "stamina",
-      "weight": 33,
+      "weight": 33.0,
       "system": "UX"
     },
     {
       "en": "PerseusDark",
       "zh": "英仙幽冥",
       "type": "defense",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
       "en": "FoxBrush",
       "zh": "極狐九尾",
       "type": "attack",
-      "weight": 32,
+      "weight": 32.0,
       "system": "CX"
     },
     {
       "en": "PegasusBlast",
       "zh": "天馬爆擊",
       "type": "attack",
-      "weight": 35,
+      "weight": 35.0,
       "system": "CX"
     },
     {
       "en": "CerberusFlame",
       "zh": "魔犬烈焰",
       "type": "stamina",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
@@ -417,14 +417,14 @@
       "en": "EmperorMight",
       "zh": "帝王威能",
       "type": "balance",
-      "weight": 36,
+      "weight": 36.0,
       "system": "CX"
     },
     {
       "en": "BahamutBlitz",
       "zh": "龍王閃擊",
       "type": "attack",
-      "weight": 34,
+      "weight": 34.0,
       "system": "CX"
     },
     {
@@ -438,14 +438,14 @@
       "en": "BulletGriffon",
       "zh": "子彈獅鷲",
       "type": "balance",
-      "weight": 36,
+      "weight": 36.0,
       "system": "UX"
     },
     {
       "en": "ValkyriVolt",
       "zh": "戰神伏特",
       "type": "attack",
-      "weight": 35,
+      "weight": 35.0,
       "system": "CX"
     },
     {
@@ -459,7 +459,7 @@
       "en": "MammothTusk",
       "zh": "猛獁巨牙",
       "type": "attack",
-      "weight": 35,
+      "weight": 35.0,
       "system": "BX"
     },
     {
