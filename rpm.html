@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1,viewport-fit=cover">
+<title>RPM Analyzer - BeyScore</title>
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--dark:#0d0d0d;--card:#1a1a1a;--border:#333;--text:#eee;--muted:#888;--gold:#ffd700;--green:#4caf50;--yellow:#ff9800;--red:#f44336}
+html,body{height:100%;background:var(--dark);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+.page{max-width:500px;margin:0 auto;padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.back{display:inline-flex;align-items:center;gap:4px;background:#333;color:#ccc;border:none;border-radius:8px;padding:8px 14px;font-size:clamp(13px,3vw,16px);cursor:pointer;min-height:40px}
+.back:active{background:#555}
+.title{color:var(--gold);font-size:clamp(16px,4.5vw,22px);font-weight:700}
+.rpm-display{text-align:center;padding:12px 0}
+.rpm-num{font-size:clamp(64px,22vw,140px);font-weight:900;line-height:1;color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.3);transition:color .3s}
+.rpm-num.low{color:var(--muted)}
+.rpm-label{font-size:clamp(14px,3.5vw,18px);color:var(--muted);font-weight:600;margin-top:2px}
+.stats-row{display:flex;gap:8px;justify-content:center;margin:6px 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;text-align:center;flex:1;max-width:150px}
+.stat .sv{font-size:clamp(18px,5vw,26px);font-weight:800;color:var(--text)}
+.stat .sl{font-size:clamp(10px,2.2vw,13px);color:var(--muted)}
+.signal{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 0}
+.signal .dot{width:14px;height:14px;border-radius:50%;background:#333;transition:background .3s}
+.signal .dot.g{background:var(--green)}.signal .dot.y{background:var(--yellow)}.signal .dot.r{background:var(--red)}
+.signal .stxt{font-size:clamp(11px,2.5vw,14px);color:var(--muted)}
+canvas{width:100%;border-radius:10px;border:1px solid var(--border);background:#111;margin:6px 0}
+#specCanvas{height:120px}
+#histCanvas{height:100px}
+.clbl{font-size:clamp(10px,2.2vw,12px);color:var(--muted);margin:2px 0}
+.controls{display:flex;gap:8px;align-items:center;justify-content:center;margin:10px 0;flex-wrap:wrap}
+.start-btn{border:none;border-radius:14px;padding:14px 36px;font-size:clamp(18px,5vw,24px);font-weight:800;cursor:pointer;touch-action:manipulation;min-height:56px;min-width:140px;transition:all .2s}
+.start-btn.off{background:linear-gradient(135deg,#1b5e20,#4caf50);color:#fff}
+.start-btn.on{background:linear-gradient(135deg,#b71c1c,#f44336);color:#fff}
+.start-btn:active{transform:scale(.95);opacity:.8}
+.setting{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.setting label{font-size:clamp(11px,2.5vw,14px);color:var(--muted);white-space:nowrap}
+.setting select,.setting input{background:#222;color:#eee;border:1px solid #444;border-radius:6px;padding:6px 8px;font-size:14px;min-height:36px}
+.setting select{min-width:60px}
+.setting input[type=range]{width:80px;accent-color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar">
+    <button class="back" onclick="window.location.href='utility.html'">&#8592; <span id="backTxt">Back</span></button>
+    <div class="title" id="pageTitle">&#127919; RPM Analyzer</div>
+  </div>
+
+  <div class="rpm-display">
+    <div class="rpm-num low" id="rpmNum">0</div>
+    <div class="rpm-label">RPM</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="sv" id="peakRpm">0</div><div class="sl" id="peakLbl">Peak</div></div>
+    <div class="stat"><div class="sv" id="freqHz">0</div><div class="sl" id="freqLbl">Hz</div></div>
+  </div>
+
+  <div class="signal">
+    <div class="dot" id="dot1"></div><div class="dot" id="dot2"></div><div class="dot" id="dot3"></div>
+    <span class="stxt" id="sigTxt">Idle</span>
+  </div>
+
+  <div class="clbl" id="specLbl">Live Spectrum</div>
+  <canvas id="specCanvas"></canvas>
+
+  <div class="clbl" id="histLbl">Frequency History (time &rarr;)</div>
+  <canvas id="histCanvas"></canvas>
+
+  <div class="controls">
+    <button class="start-btn off" id="startBtn" onclick="toggleRpm()">START</button>
+  </div>
+
+  <div class="controls">
+    <div class="setting">
+      <label id="wingLbl">Wings:</label>
+      <select id="wingCount">
+        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
+        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+      </select>
+    </div>
+    <div class="setting">
+      <label id="sensLbl">Sensitivity:</label>
+      <input type="range" id="sensitivity" min="1" max="10" value="5">
+    </div>
+  </div>
+</div>
+
+<script>
+var LANG=localStorage.getItem('bbxLang')||'en';
+var running=false,audioCtx=null,analyser=null,mic=null,animId=null;
+var noiseFloor=null,peakRpmVal=0,lastFreq=0,freqHistory=[];
+var trackHistory=[];
+var HIST_LEN=200;
+var MIN_HZ=60,MAX_HZ=2500;
+
+// i18n
+function updateText(){
+  if(LANG==='zh'){
+    document.getElementById('backTxt').textContent='\u8FD4\u56DE';
+    document.getElementById('pageTitle').innerHTML='&#127919; RPM \u8F49\u901F\u5206\u6790';
+    document.getElementById('peakLbl').textContent='\u5CF0\u503C';
+    document.getElementById('freqLbl').textContent='\u9801\u7387';
+    document.getElementById('specLbl').textContent='\u5373\u6642\u983B\u8B5C';
+    document.getElementById('histLbl').innerHTML='\u983B\u7387\u6B77\u53F2 (\u6642\u9593 &rarr;)';
+    document.getElementById('wingLbl').textContent='\u7FFC\u6578:';
+    document.getElementById('sensLbl').textContent='\u9748\u654F\u5EA6:';
+  }else{
+    document.getElementById('backTxt').textContent='Back';
+    document.getElementById('pageTitle').innerHTML='&#127919; RPM Analyzer';
+    document.getElementById('peakLbl').textContent='Peak';
+    document.getElementById('freqLbl').textContent='Hz';
+    document.getElementById('specLbl').textContent='Live Spectrum';
+    document.getElementById('histLbl').innerHTML='Frequency History (time &rarr;)';
+    document.getElementById('wingLbl').textContent='Wings:';
+    document.getElementById('sensLbl').textContent='Sensitivity:';
+  }
+}
+updateText();
+
+// Canvas setup
+var specCvs=document.getElementById('specCanvas');
+var histCvs=document.getElementById('histCanvas');
+var specCtx,histCtx;
+
+function setupCanvas(){
+  var dpr=window.devicePixelRatio||1;
+  specCvs.width=specCvs.clientWidth*dpr;specCvs.height=specCvs.clientHeight*dpr;
+  histCvs.width=histCvs.clientWidth*dpr;histCvs.height=histCvs.clientHeight*dpr;
+  specCtx=specCvs.getContext('2d');histCtx=histCvs.getContext('2d');
+  specCtx.scale(dpr,dpr);histCtx.scale(dpr,dpr);
+}
+setupCanvas();
+window.addEventListener('resize',setupCanvas);
+
+function toggleRpm(){
+  if(running){stopRpm();}else{startRpm();}
+}
+
+function startRpm(){
+  var btn=document.getElementById('startBtn');
+  btn.textContent='STOP';btn.classList.remove('off');btn.classList.add('on');
+  peakRpmVal=0;lastFreq=0;freqHistory=[];trackHistory=[];
+  document.getElementById('peakRpm').textContent='0';
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(stream){
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    var source=audioCtx.createMediaStreamSource(stream);
+    analyser=audioCtx.createAnalyser();
+    analyser.fftSize=8192;
+    analyser.smoothingTimeConstant=0.3;
+    source.connect(analyser);
+    mic=stream;
+    running=true;
+    // Calibrate noise floor for 0.5s
+    noiseFloor=null;
+    var calFrames=[];
+    var calStart=performance.now();
+    setSignal('calibrating');
+    function calibrate(){
+      if(!running)return;
+      var fd=new Float32Array(analyser.frequencyBinCount);
+      analyser.getFloatFrequencyData(fd);
+      calFrames.push(fd.slice());
+      if(performance.now()-calStart<500){requestAnimationFrame(calibrate);}
+      else{
+        // Average noise floor
+        noiseFloor=new Float32Array(fd.length);
+        for(var i=0;i<fd.length;i++){
+          var sum=0;for(var j=0;j<calFrames.length;j++){sum+=calFrames[j][i];}
+          noiseFloor[i]=sum/calFrames.length;
+        }
+        setSignal('ready');
+        animId=requestAnimationFrame(analyze);
+      }
+    }
+    requestAnimationFrame(calibrate);
+  }).catch(function(e){
+    alert('Microphone access denied');
+    stopRpm();
+  });
+}
+
+function stopRpm(){
+  running=false;
+  var btn=document.getElementById('startBtn');
+  btn.textContent='START';btn.classList.remove('on');btn.classList.add('off');
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  if(mic){mic.getTracks().forEach(function(t){t.stop();});mic=null;}
+  if(audioCtx){audioCtx.close();audioCtx=null;}
+  setSignal('idle');
+  document.getElementById('rpmNum').classList.add('low');
+}
+
+function analyze(){
+  if(!running){return;}
+  animId=requestAnimationFrame(analyze);
+  var bufLen=analyser.frequencyBinCount;
+  var fd=new Float32Array(bufLen);
+  analyser.getFloatFrequencyData(fd);
+
+  var sens=parseInt(document.getElementById('sensitivity').value);
+  var threshold=-80+(10-sens)*5; // -80 to -35 dB
+  var wings=parseInt(document.getElementById('wingCount').value)||3;
+  var sampleRate=audioCtx.sampleRate;
+  var binHz=sampleRate/analyser.fftSize;
+  var minBin=Math.floor(MIN_HZ/binHz);
+  var maxBin=Math.min(Math.ceil(MAX_HZ/binHz),bufLen-1);
+
+  // Find top 5 peaks above noise floor + threshold
+  var peaks=[];
+  for(var i=minBin+1;i<maxBin-1;i++){
+    var val=fd[i];
+    var nf=noiseFloor?noiseFloor[i]:-90;
+    var above=val-nf;
+    if(above<(threshold+90)/2)continue; // below threshold
+    if(val>fd[i-1]&&val>fd[i+1]){ // local peak
+      peaks.push({bin:i,hz:i*binHz,db:val,above:above});
+    }
+  }
+  peaks.sort(function(a,b){return b.above-a.above;});
+  peaks=peaks.slice(0,5);
+
+  // Track: find peak nearest to lastFreq (within 15%)
+  var bestFreq=0;
+  var bestScore=-999;
+  if(lastFreq>0){
+    for(var p=0;p<peaks.length;p++){
+      var diff=Math.abs(peaks[p].hz-lastFreq)/lastFreq;
+      if(diff<0.15){
+        var score=peaks[p].above-diff*100;
+        if(score>bestScore){bestScore=score;bestFreq=peaks[p].hz;}
+      }
+    }
+  }
+  // If no match, pick strongest peak
+  if(bestFreq===0&&peaks.length>0){
+    // Prefer lowest strong peak (likely fundamental)
+    var sorted=peaks.slice().sort(function(a,b){return a.hz-b.hz;});
+    for(var k=0;k<sorted.length;k++){
+      if(sorted[k].above>10){bestFreq=sorted[k].hz;break;}
+    }
+    if(bestFreq===0)bestFreq=peaks[0].hz;
+  }
+
+  // Smooth: keep last 5 valid, use median
+  if(bestFreq>0){
+    trackHistory.push(bestFreq);
+    if(trackHistory.length>7)trackHistory.shift();
+  }
+  var smoothed=0;
+  if(trackHistory.length>=3){
+    var s=trackHistory.slice().sort(function(a,b){return a-b;});
+    smoothed=s[Math.floor(s.length/2)]; // median
+  }else if(trackHistory.length>0){
+    smoothed=trackHistory[trackHistory.length-1];
+  }
+
+  lastFreq=smoothed>0?smoothed:lastFreq;
+  var rpm=smoothed>0?Math.round(smoothed*60/wings):0;
+
+  // Update display
+  document.getElementById('rpmNum').textContent=rpm;
+  document.getElementById('rpmNum').classList.toggle('low',rpm===0);
+  document.getElementById('freqHz').textContent=smoothed>0?Math.round(smoothed):'0';
+  if(rpm>peakRpmVal){peakRpmVal=rpm;document.getElementById('peakRpm').textContent=rpm;}
+
+  // Signal quality
+  if(smoothed>0&&peaks.length>=2){setSignal('good');}
+  else if(smoothed>0){setSignal('weak');}
+  else{setSignal('none');}
+
+  // History for graph
+  freqHistory.push(smoothed);
+  if(freqHistory.length>HIST_LEN)freqHistory.shift();
+
+  // Draw spectrum
+  drawSpectrum(fd,minBin,maxBin,binHz,peaks);
+  // Draw history
+  drawHistory();
+}
+
+function setSignal(state){
+  var d1=document.getElementById('dot1'),d2=document.getElementById('dot2'),d3=document.getElementById('dot3');
+  var txt=document.getElementById('sigTxt');
+  d1.className='dot';d2.className='dot';d3.className='dot';
+  var zh=LANG==='zh';
+  if(state==='good'){d1.classList.add('g');d2.classList.add('g');d3.classList.add('g');txt.textContent=zh?'\u4FE1\u865F\u826F\u597D':'Good signal';}
+  else if(state==='weak'){d1.classList.add('y');d2.classList.add('y');txt.textContent=zh?'\u4FE1\u865F\u5F31':'Weak signal';}
+  else if(state==='none'){d1.classList.add('r');txt.textContent=zh?'\u7121\u4FE1\u865F':'No signal';}
+  else if(state==='calibrating'){d1.classList.add('y');txt.textContent=zh?'\u6821\u6E96\u4E2D...':'Calibrating...';}
+  else if(state==='ready'){d1.classList.add('g');txt.textContent=zh?'\u5C31\u7DD2':'Ready';}
+  else{txt.textContent=zh?'\u9592\u7F6E':'Idle';}
+}
+
+function drawSpectrum(fd,minBin,maxBin,binHz,peaks){
+  var w=specCvs.clientWidth,h=specCvs.clientHeight;
+  specCtx.clearRect(0,0,w,h);
+  var range=maxBin-minBin;
+  var barW=w/range;
+
+  // Draw bars
+  for(var i=0;i<range;i++){
+    var val=fd[minBin+i];
+    var nf=noiseFloor?(noiseFloor[minBin+i]):(-90);
+    var norm=Math.max(0,(val-nf+10)/60); // normalize 0-1
+    var bh=norm*h;
+    specCtx.fillStyle='rgba(26,111,255,'+Math.min(1,norm*1.5)+')';
+    specCtx.fillRect(i*barW,h-bh,Math.max(1,barW-0.5),bh);
+  }
+  // Highlight peaks
+  for(var p=0;p<peaks.length;p++){
+    var px=(peaks[p].bin-minBin)*barW;
+    specCtx.fillStyle=p===0?'#ffd700':'#ff9800';
+    specCtx.fillRect(px-1,0,3,h);
+  }
+  // Labels
+  specCtx.fillStyle='#666';specCtx.font='10px sans-serif';
+  var labels=[100,300,500,1000,1500,2000];
+  for(var l=0;l<labels.length;l++){
+    var lx=(labels[l]/binHz-minBin)*barW;
+    if(lx>0&&lx<w){specCtx.fillText(labels[l]+'Hz',lx+2,10);}
+  }
+}
+
+function drawHistory(){
+  var w=histCvs.clientWidth,h=histCvs.clientHeight;
+  histCtx.clearRect(0,0,w,h);
+  if(freqHistory.length<2)return;
+
+  // Background grid
+  histCtx.strokeStyle='#222';histCtx.lineWidth=0.5;
+  var gridLines=[500,1000,1500,2000];
+  for(var g=0;g<gridLines.length;g++){
+    var gy=h-(gridLines[g]-MIN_HZ)/(MAX_HZ-MIN_HZ)*h;
+    if(gy>0&&gy<h){
+      histCtx.beginPath();histCtx.moveTo(0,gy);histCtx.lineTo(w,gy);histCtx.stroke();
+      histCtx.fillStyle='#444';histCtx.font='9px sans-serif';
+      histCtx.fillText(gridLines[g]+'Hz',2,gy-2);
+    }
+  }
+
+  // Draw frequency line
+  histCtx.beginPath();
+  histCtx.strokeStyle='#ffd700';histCtx.lineWidth=2;
+  var step=w/HIST_LEN;
+  var started=false;
+  for(var i=0;i<freqHistory.length;i++){
+    var fq=freqHistory[i];
+    if(fq<=0)continue;
+    var x=i*step;
+    var y=h-(fq-MIN_HZ)/(MAX_HZ-MIN_HZ)*h;
+    y=Math.max(2,Math.min(h-2,y));
+    if(!started){histCtx.moveTo(x,y);started=true;}
+    else{histCtx.lineTo(x,y);}
+  }
+  histCtx.stroke();
+
+  // RPM axis on right
+  histCtx.fillStyle='#555';histCtx.font='9px sans-serif';histCtx.textAlign='right';
+  var wings=parseInt(document.getElementById('wingCount').value)||3;
+  var rpmGrids=[3000,6000,9000,12000,15000,18000];
+  for(var r=0;r<rpmGrids.length;r++){
+    var rHz=rpmGrids[r]/60*wings;
+    var ry=h-(rHz-MIN_HZ)/(MAX_HZ-MIN_HZ)*h;
+    if(ry>10&&ry<h-5){
+      histCtx.fillText(rpmGrids[r]/1000+'k',w-2,ry-2);
+    }
+  }
+  histCtx.textAlign='left';
+}
+
+// Cleanup on leave
+window.addEventListener('beforeunload',function(){if(running)stopRpm();});
+window.addEventListener('pagehide',function(){if(running)stopRpm();});
+</script>
+</body>
+</html>
